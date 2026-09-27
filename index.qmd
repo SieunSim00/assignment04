@@ -1,0 +1,303 @@
+---
+title: "Episodes of Democratic Backsliding"
+format: html
+embed-resources: true
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Data
+
+I use the [Episodes of Regime Transformation (ERT) dataset](https://www.v-dem.net/data/ert-dataset/) from the V-Dem Institute. The dataset identifies episodes of democratization and autocratization across countries over time.
+
+```{r}
+#| label: prepare-episodes
+library(tidyverse)
+ert <- read_csv("data/ert.csv")
+# glimpse(ert)
+# names(ert)
+
+# Keep one row per autocratization episode: its first year
+aut_start <- ert |>
+  filter(
+    aut_ep == 1,
+    year == aut_ep_start_year
+  ) |>
+ mutate(
+    regression_type = case_when(
+      aut_ep_prch == 1 ~ "Democratic regression",
+      aut_ep_prch == 0 ~ "Autocratic regression",
+      TRUE ~ NA_character_
+    ),
+    outcome = case_when(
+      aut_ep_outcome == 1 ~ "Democratic breakdown",
+      aut_ep_outcome == 2 ~ "Preempted breakdown",
+      aut_ep_outcome == 3 ~ "Diminished democracy",
+      aut_ep_outcome == 4 ~ "Averted regression",
+      aut_ep_outcome == 5 ~ "Regressed autocracy",
+      aut_ep_outcome == 6 ~ "Outcome censored",
+      TRUE ~ "Ongoing or unavailable"
+    ),
+    duration = aut_ep_end_year - aut_ep_start_year + 1
+  ) |>
+  filter(!is.na(regression_type)) |>
+  distinct(aut_ep_id, .keep_all = TRUE)
+
+```
+
+## Visualization 1: The Changing Composition of Autocratization
+
+```{r}
+#| label: fig-autocratization-over-time
+#| fig-width: 10
+#| fig-height: 6
+
+episodes_by_year <- aut_start |>
+  count(aut_ep_start_year, regression_type, name = "n_episodes")
+
+ggplot(
+  episodes_by_year,
+  aes(
+    x = aut_ep_start_year,
+    y = n_episodes,
+    fill = regression_type
+  )
+) +
+  geom_area(
+    position = "stack",
+    alpha = 0.9,
+    colour = "white",
+    linewidth = 0.2
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Democratic regression" = "#C94C4C",
+      "Autocratic regression" = "#4C78A8"
+    ),
+    name = "Episode type"
+  ) +
+  scale_x_continuous(breaks = seq(1900, 2025, by = 20)) +
+  labs(
+    title = "Autocratization Episodes Have Increased in Recent Decades",
+    subtitle = "New episodes, separated by whether they began in a democracy or autocracy",
+    x = "Episode start year",
+    y = "Number of new autocratization episodes",
+    caption = "Source: V-Dem Institute, Episodes of Regime Transformation (ERT) Dataset, v16. Author's calculations."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "top"
+  )
+
+```
+
+## Visualization 2: How Long Does Autocratization Last?
+
+```{r}
+#| label: fig-autocratization-duration
+#| fig-width: 9
+#| fig-height: 6
+
+ggplot(
+  aut_start,
+  aes(
+    x = regression_type,
+    y = duration,
+    fill = regression_type,
+    colour = regression_type
+  )
+) +
+  geom_boxplot(
+    width = 0.55,
+    outlier.shape = NA,
+    alpha = 0.65
+  ) +
+  geom_jitter(
+    width = 0.12,
+    height = 0,
+    size = 2,
+    alpha = 0.45
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Democratic regression" = "#F4A6A6",
+      "Autocratic regression" = "#A9C7E8"
+    ),
+    name = "Episode type"
+  ) +
+  scale_colour_manual(
+    values = c(
+      "Democratic regression" = "#B22222",
+      "Autocratic regression" = "#1F5A91"
+    ),
+    guide = "none"
+  ) +
+  coord_flip() +
+  labs(
+    title = "Autocratization Episodes Vary Widely in Duration",
+    subtitle = "Each point represents one autocratization episode",
+    x = NULL,
+    y = "Episode duration (years)",
+    caption = "Source: V-Dem Institute, Episodes of Regime Transformation (ERT) Dataset, v16. Author's calculations."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "none"
+  )
+```
+
+## Visualization 3: Democratic Trajectories after Backsliding Begins
+
+#### It compares democracy scores in the five years before and ten years after an autocratization episode begins.
+
+```{r}
+#| label: fig-democracy-trajectories
+#| fig-width: 10
+#| fig-height: 6
+
+trajectory_episodes <- aut_start |>
+  filter(
+    regression_type == "Democratic regression",
+    outcome %in% c("Democratic breakdown", "Averted regression")
+  ) |>
+  select(
+    country_text_id,
+    episode_start = aut_ep_start_year,
+    outcome
+  )
+
+trajectory_data <- trajectory_episodes |>
+  inner_join(
+    ert |>
+      select(country_text_id, year, v2x_polyarchy),
+    by = "country_text_id"
+  ) |>
+  mutate(relative_year = year - episode_start) |>
+  filter(between(relative_year, -5, 10))
+
+trajectory_summary <- trajectory_data |>
+  group_by(relative_year, outcome) |>
+  summarise(
+    mean_polyarchy = mean(v2x_polyarchy, na.rm = TRUE),
+    se = sd(v2x_polyarchy, na.rm = TRUE) / sqrt(sum(!is.na(v2x_polyarchy))),
+    lower = pmax(0, mean_polyarchy - 1.96 * se),
+    upper = pmin(1, mean_polyarchy + 1.96 * se),
+    .groups = "drop"
+  )
+
+ggplot(
+  trajectory_summary,
+  aes(
+    x = relative_year,
+    y = mean_polyarchy,
+    colour = outcome,
+    fill = outcome,
+    linetype = outcome,
+    group = outcome
+  )
+) +
+  geom_ribbon(
+    aes(ymin = lower, ymax = upper),
+    alpha = 0.15,
+    colour = NA
+  ) +
+  geom_line(linewidth = 1.1) +
+  geom_vline(
+    xintercept = 0,
+    linetype = "dashed",
+    colour = "grey35",
+    linewidth = 0.7
+  ) +
+  scale_colour_manual(
+    values = c(
+      "Democratic breakdown" = "#B22222",
+      "Averted regression" = "#238B45"
+    ),
+    name = "Episode outcome"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Democratic breakdown" = "#B22222",
+      "Averted regression" = "#238B45"
+    ),
+    name = "Episode outcome"
+  ) +
+  scale_linetype_manual(
+    values = c(
+      "Democratic breakdown" = "solid",
+      "Averted regression" = "dashed"
+    ),
+    name = "Episode outcome"
+  ) +
+  labs(
+    title = "Backsliding Has Different Democratic Trajectories",
+    subtitle = "Average electoral-democracy score before and after autocratization begins; shaded bands are 95% confidence intervals",
+    x = "Years relative to autocratization onset",
+    y = "Average electoral-democracy score",
+    caption = "Source: V-Dem Institute, Episodes of Regime Transformation (ERT) Dataset, v16. Author's calculations."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "top"
+  )
+```
+
+## Visualization 4: Recent Autocratization Episodes by Country
+
+```{r}
+#| label: fig-recent-episode-heatmap
+#| fig-width: 10
+#| fig-height: 8
+
+recent_episodes <- aut_start |>
+  arrange(desc(aut_ep_start_year)) |>
+  slice_head(n = 20) |>
+  select(aut_ep_id, outcome)
+
+recent_heatmap <- ert |>
+  filter(aut_ep == 1) |>
+  inner_join(recent_episodes, by = "aut_ep_id") |>
+  mutate(
+    episode_label = paste0(country_name, " (", aut_ep_start_year, ")"),
+    episode_label = fct_reorder(
+      episode_label,
+      aut_ep_start_year,
+      .desc = TRUE
+    )
+  )
+
+ggplot(
+  recent_heatmap,
+  aes(
+    x = year,
+    y = episode_label,
+    fill = v2x_polyarchy
+  )
+) +
+  geom_tile(
+    colour = "white",
+    linewidth = 0.15
+  ) +
+  scale_fill_viridis_c(
+    option = "C",
+    name = "Electoral-democracy\nscore"
+  ) +
+  labs(
+    title = "Twenty Most Recent Autocratization Episodes",
+    subtitle = "Tile color shows each country's electoral-democracy score during the episode",
+    x = "Year",
+    y = "Country and episode start year",
+    caption = "Source: V-Dem Institute, Episodes of Regime Transformation (ERT) Dataset, v16. Author's calculations."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.text.y = element_text(size = 8)
+  )
+```
