@@ -49,7 +49,7 @@ aut_start <- ert |>
 ```
 
 ## Visualization 1: The Changing Composition of Autocratization
-
+### We first examine how the composition and frequency of autocratization episodes have change over time democracies and autocracies.
 ```{r}
 #| label: fig-autocratization-over-time
 #| fig-width: 10
@@ -99,7 +99,7 @@ As is shown above, the frequency of autocratization has increased over time subs
 
 
 ## Visualization 2: How Long Does Autocratization Last?
-
+### Next, we compare the duration of autocratization episodes that occure in democracies and autocracies.
 ```{r}
 #| label: fig-autocratization-duration
 #| fig-width: 9
@@ -153,6 +153,8 @@ ggplot(
     legend.position = "none"
   )
 ```
+
+Given that figure 1 showed that autocratization episodes have become increasingly common, and the figure above shows that these episodes vary in how long they last. Episodes of democratic regression tend to last last longer and have a greater variation in duration than episodes of autocratic regression. Moreover, autocratization is not necessarily short lived, particularly when the regression takes place within a democracy. The variation in duration may imply that democracies might experience different trajectories or have different influences that prompt institutional decline rather than a single pattern. From a policy perspective, this visualization highlights that efforts to protect democratic institutions must be sustained over time, since democratic erosion is a process that unfolds over many years. It also shows that it is not a cut and dry case, therefore requiring complex, original approaches to combatting regression.  
 
 ## Visualization 3: Democratic Trajectories after Backsliding Begins
 
