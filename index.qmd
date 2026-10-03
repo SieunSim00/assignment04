@@ -253,55 +253,61 @@ ggplot(
 In the visualization above we examine how levels of electoral democracy change before and after autocratization begins, with one line showing episodes that end in democratic breakdown and the other illustrating cases where regression was averted. As is expected, the trajectories of electoral democracy diverge considerably depending on the outcome of the autocratization episode. Although electoral democracy scores decline following the onset of autocratization for both groups, the decline is significantly larger for episodes that result in breakdown. Countries where regression is averted show a modest deterioration, in comparison, and maintain higher levels of electoral democracy. Although there seems to be a bump back recovery in later years among countries with breakdown, average scores still remain below their starting levels before autocratization. From a policy perspective, this visualization and the divergence of paths shows the importance of early intervention. Responding to democratic erosion early might prevent institutional erosion before it becomes too severe to reverse.
 
 ## Visualization 4: Recent Autocratization Episodes by Country
-
+### Finally, we examine how electoral democracy has evolved during the twenty most recent autocratization episodes across countries. 
 ```{r}
 #| label: fig-recent-episode-heatmap
 #| fig-width: 10
 #| fig-height: 8
 
-# recent_episodes <- aut_start |>
-#   arrange(desc(aut_ep_start_year)) |>
-#   slice_head(n = 20) |>
-#   select(aut_ep_id, outcome)
-# 
-# recent_heatmap <- ert |>
-#   filter(aut_ep == 1) |>
-#   inner_join(recent_episodes, by = "aut_ep_id") |>
-#   mutate(
-#     episode_label = paste0(country_name, " (", aut_ep_start_year, ")"),
-#     episode_label = fct_reorder(
-#       episode_label,
-#       aut_ep_start_year,
-#       .desc = TRUE
-#     )
-#   )
-# 
-# ggplot(
-#   recent_heatmap,
-#   aes(
-#     x = year,
-#     y = episode_label,
-#     fill = v2x_polyarchy
-#   )
-# ) +
-#   geom_tile(
-#     colour = "white",
-#     linewidth = 0.15
-#   ) +
-#   scale_fill_viridis_c(
-#     option = "C",
-#     name = "Electoral-democracy\nscore"
-#   ) +
-#   labs(
-#     title = "Twenty Most Recent Autocratization Episodes",
-#     subtitle = "Tile color shows each country's electoral-democracy score during the episode",
-#     x = "Year",
-#     y = "Country and episode start year",
-#     caption = "Source: V-Dem Institute, Episodes of Regime Transformation (ERT) Dataset, v16. Author's calculations."
-#   ) +
-#   theme_minimal(base_size = 12) +
-#   theme(
-#     plot.title = element_text(face = "bold"),
-#     axis.text.y = element_text(size = 8)
-#   )
+recent_episodes <- aut_start |>
+  arrange(desc(aut_ep_start_year)) |>
+  slice_head(n = 20) |>
+  select(aut_ep_id, outcome)
+
+recent_heatmap <- ert |>
+  filter(aut_ep == 1) |>
+  inner_join(recent_episodes, by = "aut_ep_id") |>
+  mutate(
+    episode_label = paste0(country_name, " (", aut_ep_start_year, ")"),
+    episode_label = fct_reorder(
+      episode_label,
+      aut_ep_start_year,
+      .desc = TRUE
+    )
+  )
+
+ggplot(
+  recent_heatmap,
+  aes(
+    x = year,
+    y = episode_label,
+    fill = v2x_polyarchy
+  )
+) +
+  geom_tile(
+    colour = "white",
+    linewidth = 0.15
+  ) +
+  scale_fill_viridis_c(
+    option = "C",
+    name = "Electoral-democracy\nscore"
+  ) +
+  labs(
+    title = "Twenty Most Recent Autocratization Episodes",
+    subtitle = "Tile color shows each country's electoral-democracy score during the episode",
+    x = "Year",
+    y = "Country and episode start year",
+    caption = "Source: V-Dem Institute, Episodes of Regime Transformation (ERT) Dataset, v16. Author's calculations."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.text.y = element_text(size = 8)
+    )
 ```
+As shown in the visualization above, the twenty most recent autocratization episodes have substantial variation in the level of electoral democracy and the how those scores change over time. Some countries maintain a relatively high level of electoral democracy scores throughout the period shown, but others experience lower scores as the episodes progress. The differences and changes in color within individual countries show that scores can change significantly over the course of an episode and that there is not one natural progression. More broadly, these differences across countries reinforces the idea that autocratization does not follow a uniform path or identical outcomes. From a policy perspective, this variation suggest that response to democratic erosion and attempts to prevent regression should account for characteristics, trajectories, and institutions specific to the given country, instead of assuming that the same policy intervention is appropriate for every country.
+
+
+
+
+
