@@ -216,6 +216,14 @@ ggplot(
     colour = "grey35",
     linewidth = 0.7
   ) +
+  annotate(
+    "text",
+    x = 0.5,
+    y = 0.8,
+    label = "Autocratization begins",
+    hjust = 0,
+    size = 3
+  ) +
   scale_colour_manual(
     values = c(
       "Democratic breakdown" = "#B22222",
