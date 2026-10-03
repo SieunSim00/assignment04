@@ -307,7 +307,25 @@ ggplot(
 ```
 As shown in the visualization above, the twenty most recent autocratization episodes have substantial variation in the level of electoral democracy and the how those scores change over time. Some countries maintain a relatively high level of electoral democracy scores throughout the period shown, but others experience lower scores as the episodes progress. The differences and changes in color within individual countries show that scores can change significantly over the course of an episode and that there is not one natural progression. More broadly, these differences across countries reinforces the idea that autocratization does not follow a uniform path or identical outcomes. From a policy perspective, this variation suggest that response to democratic erosion and attempts to prevent regression should account for characteristics, trajectories, and institutions specific to the given country, instead of assuming that the same policy intervention is appropriate for every country.
 
-
-
-
-
+## Visualization Requirements Checklist
+| Requirement Category | Specific Element / Code Used | Graph # (1, 2, 3, or 4) |
+| :--- | :--- | :--- |
+| **Geom 1** | `geom_area()` |1|
+| **Geom 2** | `geom_boxplot()` |2|
+| **Geom 3** | `geom_jitter()` |2|
+| **Geom 4** | `geom_ribbon()`| 3|
+| **Geom 5** | `geom_line()`|3|
+| **Aesthetic 1** *(inside `aes()`)* |`aes(...fill = regression_type)`|1|
+| **Aesthetic 2** *(inside `aes()`)* |`aes(...color = regression_type`|2|
+| **Aesthetic 3** *(inside `aes()`)* |`aes(...linetype = outcome`|3|
+| **Aesthetic 4** *(inside `aes()`)* |`aes(ymin = lower, ymax = upper)...`|3|
+| **Aesthetic 5** *(inside `aes()`)* |`aes(...alpha = 0.15,`|3|
+| **Aesthetic 6** *(inside `aes()`)* |`aes(...group = outcome`|3|
+| **Non-Aesthetic 1** *(outside `aes()`)* |`scale_fill_manual(values = c(...`|1|
+| **Non-Aesthetic 2** *(outside `aes()`)* |`theme_minimal(base_size = 12)`|4|
+| **Non-Aesthetic 3** *(outside `aes()`)* |`geom_area(...linewidth = 0.2)`|3|
+| **Non-Aesthetic 4** *(outside `aes()`)* |`geom_area(...position = "stack")`|1|
+| **Non-Aesthetic 5** *(outside `aes()`)* |``geom_area(...alpha = 0.9)`|1|
+| **Non-Aesthetic 6** *(outside `aes()`)* |`geom_area(...colour = "white"`|1|
+| **Custom Scale 1** |`scale_x_continuous(breaks = seq...`|1|
+| **Custom Scale 2** |`scale_colour_manual(...`|2|
