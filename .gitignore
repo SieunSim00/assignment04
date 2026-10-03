@@ -3,3 +3,7 @@ data/
 ert.csv
 ert_codebook.pdf
 
+.DS_Store
+Rhistory
+.RData
+.Rhistory
