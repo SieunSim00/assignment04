@@ -95,6 +95,9 @@ ggplot(
 
 ```
 
+As is shown above, the frequency of autocratization has increased over time substantially, as recent decades have seen a large concentration of new episodes. While democratic and autocratic countries have experienced backsliding and contributed to this increase, the visual above shows that a significant share of this autocratization has comes from countries classified as democracies. This might suggest that democratic institutions are not as strong or effective at repelling backsliding as one might think. From a policy perspective, this trend suggest that efforts to protect democracy should not only focus on autocracies, but also on gradual forms of institutional erosion within existing democracies. In particular, democracies must strengthen their institutions.
+
+
 ## Visualization 2: How Long Does Autocratization Last?
 
 ```{r}
