@@ -1,6 +1,8 @@
 ---
 title: "Episodes of Democratic Backsliding"
-author: "Sieun Sim and Marina Legorreta"
+author: 
+- "Marina Legorreta"
+- "Sieun Sim"
 format: html
 embed-resources: true
 editor: source
@@ -12,7 +14,7 @@ execute:
 
 ## Data
 
-I use the [Episodes of Regime Transformation (ERT) dataset](https://www.v-dem.net/data/ert-dataset/) from the V-Dem Institute. The dataset identifies episodes of democratization and autocratization across countries over time.
+We use the [Episodes of Regime Transformation (ERT) dataset](https://www.v-dem.net/data/ert-dataset/) from the V-Dem Institute. The dataset identifies episodes of democratization and autocratization across countries over time.
 
 ```{r}
 #| label: prepare-episodes
@@ -50,7 +52,9 @@ aut_start <- ert |>
 ```
 
 ## Visualization 1: The Changing Composition of Autocratization
-### We first examine how the composition and frequency of autocratization episodes have change over time democracies and autocracies.
+
+### We first examine how the composition and frequency of autocratization episodes have changed over time across democracies and autocracies.
+
 ```{r}
 #| label: fig-autocratization-over-time
 #| fig-width: 10
@@ -96,11 +100,12 @@ ggplot(
 
 ```
 
-As is shown above, the frequency of autocratization has increased over time substantially, as recent decades have seen a large concentration of new episodes. While democratic and autocratic countries have experienced backsliding and contributed to this increase, the visual above shows that a significant share of this autocratization has comes from countries classified as democracies. This might suggest that democratic institutions are not as strong or effective at repelling backsliding as one might think. From a policy perspective, this trend suggest that efforts to protect democracy should not only focus on autocracies, but also on gradual forms of institutional erosion within existing democracies. In particular, democracies must strengthen their institutions.
-
+As shown above, the frequency of autocratization has increased over time substantially, as recent decades have seen a large concentration of new episodes. While democratic and autocratic countries have experienced backsliding and contributed to this increase, the visual above shows that a significant share of this autocratization has come from countries classified as democracies. This might suggest that democratic institutions are not as strong or effective at repelling backsliding as one might think. From a policy perspective, this trend suggests that efforts to protect democracy should not only focus on autocracies, but also on gradual forms of institutional erosion within existing democracies. In particular, democracies must strengthen their institutions.
 
 ## Visualization 2: How Long Does Autocratization Last?
-### Next, we compare the duration of autocratization episodes that occure in democracies and autocracies.
+
+### Next, we compare the duration of autocratization episodes that occur in democracies and autocracies.
+
 ```{r}
 #| label: fig-autocratization-duration
 #| fig-width: 9
@@ -155,10 +160,12 @@ ggplot(
   )
 ```
 
-Given that figure 1 showed that autocratization episodes have become increasingly common, and the figure above shows that these episodes vary in how long they last. Episodes of democratic regression tend to last last longer and have a greater variation in duration than episodes of autocratic regression. Moreover, autocratization is not necessarily short lived, particularly when the regression takes place within a democracy. The variation in duration may imply that democracies might experience different trajectories or have different influences that prompt institutional decline rather than a single pattern. From a policy perspective, this visualization highlights that efforts to protect democratic institutions must be sustained over time, since democratic erosion is a process that unfolds over many years. It also shows that it is not a cut and dry case, therefore requiring complex, original approaches to combatting regression.  
+Figure 1 showed that autocratization episodes have become increasingly common, and Figure 2 shows that these episodes vary in how long they last. Episodes of democratic regression tend to last longer and have a greater variation in duration than episodes of autocratic regression. Moreover, autocratization is not necessarily short-lived, particularly when the regression takes place within a democracy. The variation in duration may imply that democracies might experience different trajectories or have different influences that prompt institutional decline rather than a single pattern. From a policy perspective, this visualization highlights that efforts to protect democratic institutions must be sustained over time, since democratic erosion is a process that unfolds over many years. It also shows that it is not a cut and dry case, therefore requiring complex, original approaches to combatting regression.
 
 ## Visualization 3: Democratic Trajectories after Backsliding Begins
-#### Next, we compare democracy scores in the five years before and ten years after an autocratization episode begins.
+
+### Next, we compare electoral-democracy scores in the five years before and ten years after an autocratization episode begins.
+
 ```{r}
 #| label: fig-democracy-trajectories
 #| fig-width: 10
@@ -259,10 +266,13 @@ ggplot(
     legend.position = "top"
   )
 ```
-In the visualization above we examine how levels of electoral democracy change before and after autocratization begins, with one line showing episodes that end in democratic breakdown and the other illustrating cases where regression was averted. As is expected, the trajectories of electoral democracy diverge considerably depending on the outcome of the autocratization episode. Although electoral democracy scores decline following the onset of autocratization for both groups, the decline is significantly larger for episodes that result in breakdown. Countries where regression is averted show a modest deterioration, in comparison, and maintain higher levels of electoral democracy. Although there seems to be a bump back recovery in later years among countries with breakdown, average scores still remain below their starting levels before autocratization. From a policy perspective, this visualization and the divergence of paths shows the importance of early intervention. Responding to democratic erosion early might prevent institutional erosion before it becomes too severe to reverse.
+
+In the visualization above we examine how levels of electoral democracy change before and after autocratization begins, with one line showing episodes that end in democratic breakdown and the other illustrating cases where regression was averted. As expected, the trajectories of electoral democracy diverge considerably depending on the outcome of the autocratization episode. Although electoral democracy scores decline following the onset of autocratization for both groups, the decline is significantly larger for episodes that result in breakdown. Countries where regression is averted show a modest deterioration, in comparison, and maintain higher levels of electoral democracy. Although there seems to be a bump back recovery in later years among countries with breakdown, average scores still remain below their starting levels before autocratization. From a policy perspective, this visualization and the divergence of paths show the importance of early intervention. Responding to democratic erosion early might prevent institutional erosion before it becomes too severe to reverse.
 
 ## Visualization 4: Recent Autocratization Episodes by Country
-### Finally, we examine how electoral democracy has evolved during the twenty most recent autocratization episodes across countries. 
+
+### Finally, we examine how electoral democracy has evolved during the twenty most recent autocratization episodes across countries.
+
 ```{r}
 #| label: fig-recent-episode-heatmap
 #| fig-width: 10
@@ -314,27 +324,29 @@ ggplot(
     axis.text.y = element_text(size = 8)
     )
 ```
-As shown in the visualization above, the twenty most recent autocratization episodes have substantial variation in the level of electoral democracy and the how those scores change over time. Some countries maintain a relatively high level of electoral democracy scores throughout the period shown, but others experience lower scores as the episodes progress. The differences and changes in color within individual countries show that scores can change significantly over the course of an episode and that there is not one natural progression. More broadly, these differences across countries reinforces the idea that autocratization does not follow a uniform path or identical outcomes. From a policy perspective, this variation suggest that response to democratic erosion and attempts to prevent regression should account for characteristics, trajectories, and institutions specific to the given country, instead of assuming that the same policy intervention is appropriate for every country.
+
+As shown in the visualization above, the twenty most recent autocratization episodes have substantial variation in the level of electoral democracy and how those scores change over time. Some countries maintain a relatively high electoral democracy scores throughout the period shown, but others experience lower scores as the episodes progress. The differences and changes in color within individual countries show that scores can change significantly over the course of an episode and that there is not one natural progression. More broadly, these differences across countries reinforce the idea that autocratization does not follow a uniform path or identical outcomes. From a policy perspective, this variation suggests that responses to democratic erosion and attempts to prevent regression should account for characteristics, trajectories, and institutions specific to the given country, instead of assuming that the same policy intervention is appropriate for every country.
 
 ## Visualization Requirements Checklist
-| Requirement Category | Specific Element / Code Used | Graph # (1, 2, 3, or 4) |
-| :--- | :--- | :--- |
-| **Geom 1** | `geom_area()` |1|
-| **Geom 2** | `geom_boxplot()` |2|
-| **Geom 3** | `geom_jitter()` |2|
-| **Geom 4** | `geom_ribbon()`| 3|
-| **Geom 5** | `geom_line()`|3|
-| **Aesthetic 1** *(inside `aes()`)* |`aes(...fill = regression_type)`|1|
-| **Aesthetic 2** *(inside `aes()`)* |`aes(...color = regression_type`|2|
-| **Aesthetic 3** *(inside `aes()`)* |`aes(...linetype = outcome`|3|
-| **Aesthetic 4** *(inside `aes()`)* |`aes(ymin = lower, ymax = upper)...`|3|
-| **Aesthetic 5** *(inside `aes()`)* |`aes(...alpha = 0.15,`|3|
-| **Aesthetic 6** *(inside `aes()`)* |`aes(...group = outcome`|3|
-| **Non-Aesthetic 1** *(outside `aes()`)* |`scale_fill_manual(values = c(...`|1|
-| **Non-Aesthetic 2** *(outside `aes()`)* |`theme_minimal(base_size = 12)`|4|
-| **Non-Aesthetic 3** *(outside `aes()`)* |`geom_area(...linewidth = 0.2)`|1|
-| **Non-Aesthetic 4** *(outside `aes()`)* |`geom_area(...position = "stack")`|1|
-| **Non-Aesthetic 5** *(outside `aes()`)* |``geom_area(...alpha = 0.9)`|1|
-| **Non-Aesthetic 6** *(outside `aes()`)* |`geom_area(...colour = "white"`|1|
-| **Custom Scale 1** |`scale_x_continuous(breaks = seq...`|1|
-| **Custom Scale 2** |`scale_colour_manual(...`|2|
+
+| Requirement Category | Specific Element / Code Used | Graph \# (1, 2, 3, or 4) |
+|:-----------------------|:-----------------------|:-----------------------|
+| **Geom 1** | `geom_area()` | 1 |
+| **Geom 2** | `geom_boxplot()` | 2 |
+| **Geom 3** | `geom_jitter()` | 2 |
+| **Geom 4** | `geom_ribbon()` | 3 |
+| **Geom 5** | `geom_line()` | 3 |
+| **Aesthetic 1** *(inside `aes()`)* | `aes(...fill = regression_type)` | 1 |
+| **Aesthetic 2** *(inside `aes()`)* | `aes(...colour = regression_type)` | 2 |
+| **Aesthetic 3** *(inside `aes()`)* | `aes(...linetype = outcome)` | 3 |
+| **Aesthetic 4** *(inside `aes()`)* | `aes(ymin = lower, ymax = upper)...` | 3 |
+| **Aesthetic 5** *(inside `aes()`)* | `aes(...fill = outcome)` | 3 |
+| **Aesthetic 6** *(inside `aes()`)* | `aes(..., group = outcome)` | 3 |
+| **Non-Aesthetic 1** *(outside `aes()`)* | `scale_fill_manual(values = c(...` | 1 |
+| **Non-Aesthetic 2** *(outside `aes()`)* | `theme_minimal(base_size = 12)` | 4 |
+| **Non-Aesthetic 3** *(outside `aes()`)* | `geom_area(...linewidth = 0.2)` | 1 |
+| **Non-Aesthetic 4** *(outside `aes()`)* | `geom_area(...position = "stack")` | 1 |
+| **Non-Aesthetic 5** *(outside `aes()`)* | `geom_area(...alpha = 0.9)` | 1 |
+| **Non-Aesthetic 6** *(outside `aes()`)* | `geom_area(...colour = "white")` | 1 |
+| **Custom Scale 1** | `scale_x_continuous(breaks = seq...` | 1 |
+| **Custom Scale 2** | `scale_colour_manual(...` | 2 |
